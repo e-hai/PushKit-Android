@@ -38,6 +38,68 @@ PushKit/
 
 ---
 
+## 📐 代码架构图解
+
+```mermaid
+graph TD
+    UserApp["应用主程序 (App / MainActivity)"]
+    
+    subgraph PushKit ["PushKit 核心封装库 (:pushkit)"]
+        Facade["PushKitManager<br/>(单例门面类)"]
+        
+        subgraph ChannelModule ["渠道管理模块 (channel)"]
+            ChannelMgr["NotificationChannelManager"]
+            ChannelConfig["NotificationChannelConfig<br/>NotificationChannelGroupConfig"]
+        end
+        
+        subgraph PermissionModule ["权限与设置模块 (permission)"]
+            PermHelper["NotificationPermissionHelper<br/>(API 33+ POST_NOTIFICATIONS)"]
+        end
+        
+        subgraph BuilderModule ["通知 DSL & 构建器 (builder)"]
+            DSL["NotificationDsl<br/>(notifyPush / buildNotification)"]
+            Builder["PushNotificationBuilder"]
+            Style["NotificationStyle<br/>(Normal / BigText / BigPicture / Inbox / Progress)"]
+            Action["NotificationAction"]
+        end
+        
+        subgraph ProviderModule ["多厂商推送接入层 (provider)"]
+            PushProviderInterface["<<Interface>><br/>PushProvider"]
+            PushMessage["PushMessage<br/>PushTokenListener / PushMessageListener"]
+            
+            subgraph FCMImpl ["FCM 推送实现 (provider/fcm)"]
+                FcmProvider["FcmPushProvider"]
+                FcmService["PushKitFirebaseMessagingService"]
+            end
+        end
+    end
+    
+    SysNoti["Android 系统通知栏<br/>(NotificationManagerCompat)"]
+    FCMServer["Firebase Cloud Messaging<br/>(FCM 后台服务)"]
+
+    %% 交互关系
+    UserApp -->|1. 调用 DSL / 门面入口| Facade
+    UserApp -->|2. 发送/构建通知| DSL
+    
+    Facade --> ChannelMgr
+    Facade --> PermHelper
+    Facade --> PushProviderInterface
+    
+    DSL --> Builder
+    Builder --> Style
+    Builder --> Action
+    Builder -->|3. 发送给系统通知栏| SysNoti
+    
+    ChannelMgr --> ChannelConfig
+    
+    FcmProvider -.->|实现| PushProviderInterface
+    FcmService --> FcmProvider
+    FcmService --> PushMessage
+    FCMServer -->|4. 推送消息 / Token 回调| FcmService
+```
+
+---
+
 ## 快速上手
 
 ### 1. 依赖配置 (JitPack)
