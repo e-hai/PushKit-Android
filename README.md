@@ -41,7 +41,7 @@ PushKit/
 ## 📐 代码架构图解
 
 ```mermaid
-graph TD
+flowchart TB
     UserApp["应用主程序 (App / MainActivity)"]
     
     subgraph PushKit ["PushKit 核心封装库 (:pushkit)"]
