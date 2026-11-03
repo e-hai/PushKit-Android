@@ -8,11 +8,11 @@
  *       }
  *   }
  *
- * Coordinates: com.github.e-hai.PushKit:<module>:<tag>
+ * Coordinates: com.github.e-hai.PushKit-Android:<module>:<tag>
  */
 apply(plugin = "maven-publish")
 
-group = providers.gradleProperty("GROUP_ID").orElse("com.github.e-hai.PushKit").get()
+group = providers.gradleProperty("GROUP_ID").orElse("com.github.e-hai.PushKit-Android").get()
 version = providers.gradleProperty("VERSION_NAME").orElse("0.1.0").get()
 
 afterEvaluate {
@@ -27,7 +27,7 @@ afterEvaluate {
                 pom {
                     name.set(project.name)
                     description.set("PushKit Android library module: ${project.name}")
-                    url.set("https://github.com/e-hai/PushKit")
+                    url.set("https://github.com/e-hai/PushKit-Android")
                     licenses {
                         license {
                             name.set("The Apache License, Version 2.0")
@@ -41,9 +41,9 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection.set("scm:git:git://github.com/e-hai/PushKit.git")
-                        developerConnection.set("scm:git:ssh://github.com:e-hai/PushKit.git")
-                        url.set("https://github.com/e-hai/PushKit")
+                        connection.set("scm:git:git://github.com/e-hai/PushKit-Android.git")
+                        developerConnection.set("scm:git:ssh://github.com:e-hai/PushKit-Android.git")
+                        url.set("https://github.com/e-hai/PushKit-Android")
                     }
                 }
             }

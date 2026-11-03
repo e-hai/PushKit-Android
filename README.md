@@ -120,7 +120,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.username:PushKit:Tag")
+    implementation("com.github.e-hai.PushKit-Android:pushkit:v1.0.0")
 }
 ```
 
